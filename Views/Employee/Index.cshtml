@@ -1,2 +1,35 @@
-﻿<h1>Employee view</h1>
+﻿@model IEnumerable<Employee>
 
+<h1>All Employees</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor( model => model.EmployeeNumber)
+            </th>
+
+                  <th>
+                @Html.DisplayNameFor( model => model.EmployeeName)
+            </th>
+                  <th>
+                @Html.DisplayNameFor( model => model.DOB)
+            </th>
+                  <th>
+                @Html.DisplayNameFor( model => model.HiringDate)
+            </th>
+                  <th>
+                @Html.DisplayNameFor( model => model.GrossSalary)
+            </th>
+                  <th>
+                @Html.DisplayNameFor( model => model.NetSalary)
+            </th>
+                  <th>
+                @Html.DisplayNameFor( model => model.DepartmentName)
+            </th>
+                 
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
