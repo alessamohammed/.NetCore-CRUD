@@ -2,6 +2,8 @@
 
 <h1>All Employees</h1>
 
+<a asp-action="Create" class="btn btn-primary">Create New Employee</a>
+
 <table class="table">
     <thead>
         <tr>
@@ -27,9 +29,41 @@
                   <th>
                 @Html.DisplayNameFor( model => model.DepartmentName)
             </th>
-                 
+            <th>
+                Edit
+            </th>
         </tr>
     </thead>
     <tbody>
+        @foreach(var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor( modelItem => item.EmployeeNumber)
+            </td>
+              <td>
+                @Html.DisplayFor( modelItem => item.EmployeeName)
+            </td>
+              <td>
+                @Html.DisplayFor( modelItem => item.DOB)
+            </td>
+              <td>
+                @Html.DisplayFor( modelItem => item.HiringDate)
+            </td>
+              <td>
+                @Html.DisplayFor( modelItem => item.GrossSalary)
+            </td>
+              <td>
+                @Html.DisplayFor( modelItem => item.NetSalary)
+            </td>
+                <td>
+                @Html.DisplayFor( modelItem => item.Department)
+            </td>
+            <td>
+              @Html.ActionLink("Edit","Edit", new {id= item.EmployeeId})
+              @Html.ActionLink("Delete","Delete", new {id= item.EmployeeId})
+              </td>
+        </tr>
+        }
     </tbody>
 </table>
