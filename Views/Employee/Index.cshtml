@@ -59,7 +59,7 @@
             </td>
             <td>
               @Html.ActionLink("Edit","Edit", new {id= item.EmployeeId})
-              @Html.ActionLink("Delete","Delete", new {id= item.EmployeeId})
+              @Html.ActionLink("Delete","Delete", new {id= item.EmployeeId}, new { onclick= "return confirm('Are you sure you want to delete this employee?');"})
               </td>
         </tr>
         }
