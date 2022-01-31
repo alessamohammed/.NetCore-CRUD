@@ -2,32 +2,41 @@
 
 <h1>All Employees</h1>
 
-<a asp-action="Create" class="btn btn-primary">Create New Employee</a>
+@using (Html.BeginForm())
+{
+    <div class="input-group">
+        @Html.TextBox("SearchByName", null, new { @class="form-control", @placeholder="Search By Employee Name..."})
+        <input type="submit" value="Search" class="btn btn-outline-success">
+        <a asp-action="Create" class="btn btn-outline-primary">Create New Employee</a>
+
+    </div>
+}
+
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor( model => model.EmployeeNumber)
+               @Html.ActionLink("Employee number", "Index",new {sortField="EmployeeNumber", currentSortField=ViewBag.SortField, SortDirection=ViewBag.SortDictionary})
             </th>
 
                   <th>
-                @Html.DisplayNameFor( model => model.EmployeeName)
+               @Html.ActionLink("Employee Name", "Index",new {sortField="EmployeeName", currentSortField=ViewBag.SortField, SortDirection=ViewBag.SortDictionary})
             </th>
                   <th>
-                @Html.DisplayNameFor( model => model.DOB)
+               @Html.ActionLink("Date of Birth", "Index",new {sortField="DOB", currentSortField=ViewBag.SortField, SortDirection=ViewBag.SortDictionary})
             </th>
                   <th>
-                @Html.DisplayNameFor( model => model.HiringDate)
+               @Html.ActionLink("Hiring Date", "Index",new {sortField="HiringDate", currentSortField=ViewBag.SortField, SortDirection=ViewBag.SortDictionary})
             </th>
                   <th>
-                @Html.DisplayNameFor( model => model.GrossSalary)
+               @Html.ActionLink("Gross Salary", "Index",new {sortField="GrossSalary", currentSortField=ViewBag.SortField, SortDirection=ViewBag.SortDictionary})
             </th>
                   <th>
-                @Html.DisplayNameFor( model => model.NetSalary)
+               @Html.ActionLink("Net Salary", "Index",new {sortField="NetSalary", currentSortField=ViewBag.SortField, SortDirection=ViewBag.SortDictionary})
             </th>
                   <th>
-                @Html.DisplayNameFor( model => model.DepartmentName)
+               @Html.ActionLink("Department", "Index",new {sortField="Department", currentSortField=ViewBag.SortField, SortDirection=ViewBag.SortDictionary})
             </th>
 
         </tr>

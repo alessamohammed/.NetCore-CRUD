@@ -2,24 +2,39 @@
 using EmployeesApp.Models;
 namespace EmployeesApp.Controllers
 {
+    public enum SortDirection
+    {
+        Ascending,
+        Descending
+    }
     public class EmployeeController : Controller
     {
         HRDatabaseContext dbContext = new HRDatabaseContext();
-        public IActionResult Index()
+        public IActionResult Index(string SortField, string CurrentSortField, SortDirection SortDirection, string searchByName)
         {
-           var employees = (from employee in dbContext.Employees join department in dbContext.Departments on employee.Departmentid equals department.DepartmentId select new Employee
-           {
-               EmployeeId = employee.EmployeeId,
-               EmployeeName = employee.EmployeeName,
-               EmployeeNumber = employee.EmployeeNumber,
-               DOB = employee.DOB,
-               HiringDate = employee.HiringDate,
-               GrossSalary = employee.GrossSalary,
-               NetSalary = employee.NetSalary,
-               Departmentid = employee.Departmentid,
-               DepartmentName = department.DepartmentName
-           }).ToList();
-            return View(employees);
+            var employees = GetEmployees();
+            if(!string.IsNullOrEmpty(searchByName))
+                employees = employees.Where( e => e.EmployeeName.ToLower().Contains(searchByName.ToLower())).ToList();
+            return View(SortEmployees(employees, SortField, CurrentSortField, SortDirection));
+        }
+
+        private List<Employee> GetEmployees()
+        {
+            var employees = (from employee in dbContext.Employees
+                             join department in dbContext.Departments on employee.Departmentid equals department.DepartmentId
+                             select new Employee
+                             {
+                                 EmployeeId = employee.EmployeeId,
+                                 EmployeeName = employee.EmployeeName,
+                                 EmployeeNumber = employee.EmployeeNumber,
+                                 DOB = employee.DOB,
+                                 HiringDate = employee.HiringDate,
+                                 GrossSalary = employee.GrossSalary,
+                                 NetSalary = employee.NetSalary,
+                                 Departmentid = employee.Departmentid,
+                                 DepartmentName = department.DepartmentName
+                             }).ToList();
+            return employees;
         }
 
         public IActionResult Create()
@@ -46,7 +61,7 @@ namespace EmployeesApp.Controllers
 
         public IActionResult Edit(int ID)
         {
-            Employee data = this.dbContext.Employees.Where( e=> e.EmployeeId == ID).FirstOrDefault();
+            Employee data = this.dbContext.Employees.Where(e=> e.EmployeeId == ID).FirstOrDefault();
             ViewBag.Departments = this.dbContext.Departments.ToList();
             return View("Create", data);
         }
@@ -77,6 +92,30 @@ namespace EmployeesApp.Controllers
 
             }
             return RedirectToAction("Index");
+        }
+
+        private List<Employee> SortEmployees(List<Employee> employees, string sortField, string currentSortField, SortDirection sortDirection)
+        {
+            if(string.IsNullOrEmpty(sortField))
+            {
+                ViewBag.SortField = "EmployeeNumber";
+                ViewBag.SortDirection = SortDirection.Ascending;
+            }
+            else 
+            {
+                if (currentSortField == sortField)
+                    ViewBag.SortDirection = sortDirection == SortDirection.Ascending ? SortDirection.Descending : SortDirection.Ascending;
+                else
+                    ViewBag.SortDirection = SortDirection.Ascending;
+                ViewBag.SortField = sortField;
+            }
+
+            var propertyInfo = typeof(Employee).GetProperty(ViewBag.SortField);
+            if (ViewBag.SortDirection == SortDirection.Ascending)
+                employees = employees.OrderBy(e => propertyInfo.GetValue(e, null)).ToList();
+            else
+                employees = employees.OrderByDescending(e => propertyInfo.GetValue(e, null)).ToList();
+            return employees; 
         }
     }
 }
