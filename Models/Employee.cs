@@ -14,7 +14,7 @@ namespace EmployeesApp.Models
         [Required]
         [Column(TypeName = "varchar(5)")]
         [MaxLength(5)]
-        [Display(Name="Employee Number")]
+        [Display(Name="Employee No.")]
         public string EmployeeNumber { get; set; }
 
         [Required]

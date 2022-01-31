@@ -29,11 +29,9 @@
                   <th>
                 @Html.DisplayNameFor( model => model.DepartmentName)
             </th>
-            <th>
-                Edit
-            </th>
+
         </tr>
-    </thead>
+    </thead>  
     <tbody>
         @foreach(var item in Model)
         {
@@ -57,7 +55,7 @@
                 @Html.DisplayFor( modelItem => item.NetSalary)
             </td>
                 <td>
-                @Html.DisplayFor( modelItem => item.Department)
+                @Html.DisplayFor( modelItem => item.DepartmentName)
             </td>
             <td>
               @Html.ActionLink("Edit","Edit", new {id= item.EmployeeId})
